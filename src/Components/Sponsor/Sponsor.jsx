@@ -42,7 +42,7 @@ const Sponsor = () => {
         <h2 className="text-center font-bold my-4 text-white">
           Trusted by 60,000+ freelancers, marketing teams and agencies.
         </h2>
-        <Marquee>
+        <Marquee style={{ width: "400px", margin: "0 auto" }}>
           <div className="flex justify-center items-center">
             <div className="mx-6 ">
               <img width={100} height={100} src="/Asset/s1.png" alt="" />

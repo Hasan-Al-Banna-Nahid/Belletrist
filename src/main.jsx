@@ -8,6 +8,8 @@ import Home from "./Components/Home/Home.jsx";
 import { ParallaxProvider } from "react-scroll-parallax";
 import WriteScript from "./Components/WriteScript/WriteScript.jsx";
 import Example from "./Components/Example/Example.jsx";
+import Act from "./Components/ActScript/Act.jsx";
+import DashBoard from "./Components/DashBoard/DashBoard.jsx";
 
 const router = createBrowserRouter([
   {
@@ -19,8 +21,22 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
+        path: "/act",
+        element: <Act />,
+      },
+      {
+        path: "/writeScript/:id",
+        element: <WriteScript />,
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/script/${params.id}`),
+      },
+      {
         path: "/writeScript",
         element: <WriteScript />,
+      },
+      {
+        path: "/dashboard",
+        element: <DashBoard />,
       },
     ],
   },

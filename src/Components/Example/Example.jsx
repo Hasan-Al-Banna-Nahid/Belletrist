@@ -181,7 +181,7 @@ const Example = () => {
                 </figure>
                 <div className="card-body items-center text-center">
                   <h2 className="card-title">Blog Post & Articles!</h2>
-                  <p>
+                  <p className="font-semibold">
                     Generate optimized blog post and articles <br /> to get
                     organic traffic - making you visible on the world.
                   </p>
@@ -196,7 +196,7 @@ const Example = () => {
                 </figure>
                 <div className="card-body items-center text-center">
                   <h2 className="card-title">Product Description!</h2>
-                  <p>
+                  <p className="font-semibold">
                     Create a perfect description for your products to <br />{" "}
                     engage your customers to click and buy.
                   </p>
@@ -210,7 +210,7 @@ const Example = () => {
                 </figure>
                 <div className="card-body items-center text-center">
                   <h2 className="card-title">Social Media Ad!</h2>
-                  <p>
+                  <p className="font-semibold">
                     Create ads copies for your social media - make an <br />{" "}
                     impact with your online marketing campaigns.
                   </p>
@@ -224,7 +224,7 @@ const Example = () => {
                 </figure>
                 <div className="card-body items-center text-center">
                   <h2 className="card-title">Product Benefits!</h2>
-                  <p>
+                  <p className="font-semibold">
                     Create a bullet point list of your product benefits that{" "}
                     <br /> appeal to your customers to purchase.
                   </p>
@@ -238,7 +238,7 @@ const Example = () => {
                 </figure>
                 <div className="card-body items-center text-center">
                   <h2 className="card-title">Suggest Improvements!</h2>
-                  <p>
+                  <p className="font-semibold">
                     Need to improve your existing content? <br /> Our AI will
                     rewrite and improve the content for you.
                   </p>
@@ -252,7 +252,7 @@ const Example = () => {
                 </figure>
                 <div className="card-body items-center text-center">
                   <h2 className="card-title">Landing Page Content!</h2>
-                  <p>
+                  <p className="font-semibold">
                     Write very attractive headlines, slogans <br /> or paragraph
                     for your landing page of your website.
                   </p>

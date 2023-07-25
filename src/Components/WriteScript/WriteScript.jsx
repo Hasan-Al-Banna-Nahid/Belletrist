@@ -3,12 +3,10 @@ import AnimatedCursor from "react-animated-cursor";
 import Header from "../Header/Header";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { FaPersonBooth, FaToggleOff, FaToggleOn } from "react-icons/fa";
+import { FaToggleOff, FaToggleOn } from "react-icons/fa";
 import { AiOutlinePlus, AiFillVideoCamera } from "react-icons/ai";
-import "react-notion/src/styles.css";
-import "prismjs/themes/prism-tomorrow.css"; // only needed for code highlighting
-import { NotionRenderer } from "react-notion";
 import Swal from "sweetalert2";
+import { useLoaderData } from "react-router-dom";
 
 const WriteScript = () => {
   const [screenHeading, setScreenHeading] = useState(false);
@@ -17,10 +15,14 @@ const WriteScript = () => {
   const [parenthetical, setParenthetical] = useState(false);
   const [dialog, setDialog] = useState(false);
   const [transition, setTransition] = useState(false);
+  const scripts = useLoaderData();
+
   const handleScriptToDB = (e) => {
     e.preventDefault();
     const form = e.target;
     const title = form.title.value;
+    const genre = form.genre.value;
+    const synopsis = form.synopsis.value;
     const heading = form.heading.value;
     const action = form.action.value;
     const character = form.character.value;
@@ -30,6 +32,8 @@ const WriteScript = () => {
     const script = form.script.value;
     const data = {
       title,
+      genre,
+      synopsis,
       heading,
       action,
       character,
@@ -38,24 +42,39 @@ const WriteScript = () => {
       parenthetical,
       script,
     };
-    console.log(data);
-    fetch("http://localhost:5000/script", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    })
-      .then((res) => res.json())
-      .then(() => {
-        Swal.fire("Good job!", "Your Script Is Saved!", "success");
-      });
+    // console.log(data);
+
+    if (scripts) {
+      fetch(`http://localhost:5000/script/${scripts._id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      })
+        .then((res) => res.json())
+        .then(() => {
+          Swal.fire("Good job!", "Your Script Is Updated!", "success");
+        });
+    } else {
+      fetch(`http://localhost:5000/script/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      })
+        .then((res) => res.json())
+        .then(() => {
+          Swal.fire("Good job!", "Your Script Is Saved!", "success");
+        });
+    }
   };
 
-  const [scripts, setScripts] = useState([]);
-  useEffect(() => {
-    fetch("http://localhost:5000/script")
-      .then((res) => res.json())
-      .then((data) => setScripts(data));
-  }, []);
+  // const [scripts, setScripts] = useState([]);
+
+  // console.log(scripts);
+  // useEffect(() => {
+  //   fetch("http://localhost:5000/script")
+  //     .then((res) => res.json())
+  //     .then((data) => setScripts(data));
+  // }, []);
 
   const handleScreenHeading = () => {
     setScreenHeading((click) => !click);
@@ -82,7 +101,7 @@ const WriteScript = () => {
     setIsClicked(true);
     setTimeout(() => {
       setIsClicked(false);
-    }, 20500);
+    }, 60500);
   };
   const [aiMood, setAiMood] = useState(false);
 
@@ -96,8 +115,7 @@ const WriteScript = () => {
   };
   // Define the function to call the OpenAI API
   async function getAIResponse() {
-    const OPENAI_API_KEY =
-      "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";
+    const OPENAI_API_KEY = import.meta.env.VITE_OpenAi_Secret;
     const apiUrl = "https://api.openai.com/v1/chat/completions";
 
     const requestOptions = {
@@ -179,10 +197,20 @@ const WriteScript = () => {
       />
 
       <>
-        <div>
-          <h1 className="text-white text-center my-6 font-bold text-3xl">
-            Write Script
-          </h1>
+        <div className="flex justify-between p-4 items-center flex-row-reverse">
+          <div className="mx-auto">
+            <h1 className="text-white text-center my-6 font-bold text-3xl">
+              Write Script
+            </h1>
+          </div>
+          <div className="">
+            <input
+              type="text"
+              defaultValue={scripts?.title || "Title"}
+              readOnly
+              className="input input-bordered input-accent w-full max-w-xs"
+            />
+          </div>
         </div>
         <div className="w-[1200] mx-auto rounded-lg bg-[#130f40] p-10 ">
           <div className="flex justify-between items-center navbar bg-base-300 rounded-lg text-slate-900">
@@ -273,111 +301,196 @@ const WriteScript = () => {
                       <div className="w-96 mx-auto my-6">
                         {showOptions && (
                           <div>
-                            <p onClick={handleScreenHeading}>Screen Heading</p>
-                            <p onClick={handleCharacter}>Character</p>
-                            <p onClick={handleDialog}>Dialog</p>
-                            <p onClick={handleAction}>Action</p>
-                            <p onClick={handleTransition}>Transition</p>
-                            <p onClick={handleParenthetical}>Parenthetical</p>
+                            <p
+                              className="text-[20px] font-bold p-4"
+                              onClick={handleScreenHeading}
+                            >
+                              Screen Heading
+                            </p>
+                            <p
+                              className="text-[20px] font-bold p-4"
+                              onClick={handleCharacter}
+                            >
+                              Character
+                            </p>
+                            <p
+                              className="text-[20px] font-bold p-4"
+                              onClick={handleDialog}
+                            >
+                              Dialog
+                            </p>
+                            <p
+                              className="text-[20px] font-bold p-4"
+                              onClick={handleAction}
+                            >
+                              Action
+                            </p>
+                            <p
+                              className="text-[20px] font-bold p-4"
+                              onClick={handleTransition}
+                            >
+                              Transition
+                            </p>
+                            <p
+                              className="text-[20px] font-bold p-4"
+                              onClick={handleParenthetical}
+                            >
+                              Parenthetical
+                            </p>
+                            <hr className="border-4" />
                             {/* Add more options as needed */}
                           </div>
                         )}
                       </div>
                     </div>
+
                     <div className="w-96 mx-auto">
-                      <input
+                      <div className="flex gap-4 justify-center items-center">
+                        <div>
+                          <input
+                            type="text"
+                            defaultValue={
+                              scripts?.genre || scripts?.data?.genre || "Genre"
+                            }
+                            className={
+                              "visible p-4 font-bold text-[18px] input input-bordered input-accent w-full max-w-xs  "
+                            }
+                            name="genre"
+                          />
+                        </div>
+                        <div>
+                          <input
+                            type="text"
+                            defaultValue={
+                              scripts?.synopsis ||
+                              scripts?.data?.synopsis ||
+                              "Synopsis"
+                            }
+                            className={
+                              "visible p-4 font-bold text-[18px] input input-bordered input-accent w-full max-w-xs  "
+                            }
+                            name="synopsis"
+                          />
+                        </div>
+                      </div>
+                      <div className="my-6">
+                        <input
+                          type="text"
+                          defaultValue={
+                            scripts?.title || scripts?.data?.title || "Title"
+                          }
+                          name="title"
+                          className="input input-bordered input-accent w-full max-w-xs"
+                        />
+                      </div>
+                      <textarea
                         type="text"
-                        defaultValue={"Title"}
-                        className={"visible p-4 font-bold"}
-                        name="title"
-                      />
-                    </div>
-                    <div className="w-96 mx-auto">
-                      <input
-                        type="text"
-                        defaultValue={"Screen Heading"}
+                        defaultValue={
+                          scripts?.screenHeading ||
+                          scripts?.data?.screenHeading ||
+                          "Screen Heading"
+                        }
                         name="heading"
                         className={
                           screenHeading
-                            ? "visible p-4 font-bold"
-                            : "p-4 font-bold hidden"
+                            ? "visible p-4 font-bold text-[18px] w-[600px] input input-bordered input-error "
+                            : "p-4 font-bold hidden text-[18px] w-[600px] input input-bordered input-error "
                         }
                       />
                     </div>
                     <br />
                     <div className="w-96 mx-auto">
-                      <input
+                      <textarea
                         type="text"
-                        defaultValue={"Action"}
+                        defaultValue={
+                          scripts?.action || scripts?.data?.action || "Action"
+                        }
                         name="action"
                         className={
                           action
-                            ? "visible p-4 font-bold"
-                            : "p-4 font-bold hidden"
+                            ? "visible p-4 font-bold text-[18px] w-[600px] input input-bordered input-error "
+                            : "p-4 font-bold hidden text-[18px] w-[600px] input input-bordered input-error "
                         }
                       />
                     </div>
                     <br />
                     <div className="w-96 mx-auto">
-                      <input
+                      <textarea
                         type="text"
-                        defaultValue={"Character"}
+                        defaultValue={
+                          scripts?.character ||
+                          scripts?.data?.character ||
+                          "Character"
+                        }
                         name="character"
                         className={
                           character
-                            ? "visible p-4 font-bold"
-                            : "p-4 font-bold hidden"
+                            ? "visible p-4 font-bold text-[18px] w-[600px] input input-bordered input-error "
+                            : "p-4 font-bold hidden text-[18px] w-[600px] input input-bordered input-error "
                         }
                       />
                     </div>
                     <br />
                     <div className="w-96 mx-auto">
-                      <input
+                      <textarea
                         type="text"
-                        defaultValue={"Parenthetical"}
+                        defaultValue={
+                          scripts?.parenthetical ||
+                          scripts?.data?.parenthetical ||
+                          "Parenthetical"
+                        }
                         name="parenthetical"
                         className={
                           parenthetical
-                            ? "visible p-4 font-bold"
-                            : "p-4 font-bold hidden"
+                            ? "visible p-4 font-bold text-[18px] w-[600px] input input-bordered input-error "
+                            : "p-4 font-bold hidden text-[18px] w-[600px] input input-bordered input-error "
                         }
                       />
                     </div>
                     <br />
                     <div className="w-96 mx-auto">
-                      <input
+                      <textarea
                         type="text"
-                        defaultValue={"Dialog"}
+                        defaultValue={
+                          scripts?.dialog || scripts?.data?.dialog || "Dialog"
+                        }
                         name="dialog"
                         className={
                           dialog
-                            ? "visible p-4 font-bold"
-                            : "p-4 font-bold hidden"
+                            ? "visible p-4 font-bold text-[18px] w-[600px] input input-bordered input-error "
+                            : "p-4 font-bold hidden text-[18px] w-[600px] input input-bordered input-error "
                         }
                       />
                     </div>
                     <br />
                     <div className="w-96 mx-auto">
-                      <input
+                      <textarea
                         type="text"
-                        defaultValue={"Transition"}
+                        defaultValue={
+                          scripts?.transition ||
+                          scripts?.data?.transition ||
+                          "Transition"
+                        }
                         name="transition"
                         className={
                           transition
-                            ? "visible p-4 font-bold"
-                            : "p-4 font-bold hidden"
+                            ? "visible p-4 font-bold text-[18px] w-[600px] input input-bordered input-error "
+                            : "p-4 font-bold hidden text-[18px] w-[600px] input input-bordered input-error "
                         }
                       />
                     </div>
                     <br />
+
                     <textarea
-                      className="w-[800px]  border-red-300 border-3 mx-auto p-8 font-bold text-[20px]"
+                      className="w-[800px]  border-red-300 border-3 mx-auto p-8 font-bold text-[20px] input-warning "
                       name="script"
                       id="script"
                       cols="30"
                       rows="10"
                       onChange={handleInputChange}
-                      defaultValue={"Act Script"}
+                      defaultValue={
+                        scripts?.script || scripts?.data?.script || "Act"
+                      }
                     ></textarea>
                   </pre>
                   <div className="w-full mx-auto  my-6">
@@ -398,19 +511,15 @@ const WriteScript = () => {
               </div>
               <div className="drawer-side">
                 <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
-                <ul className="menu p-4 w-80 h-full bg-base-200 text-base-content rounded-lg">
+                <ul className="menu p-4 w-96 h-full bg-base-200 text-base-content rounded-lg">
                   {/* Sidebar content here */}
-                  <li>
-                    <h2 className="text-center font-bold underline text-[18px]">
-                      Title
+                  <li className="text-[18px]">
+                    <h2 className="text-center font-bold underline ">
+                      Create Scene
                     </h2>
-                    {scripts.map((title) => {
-                      return <a key={title._id}>{title.title}</a>;
-                    })}
+                    <a href="">{scripts?.data?.script || scripts?.script}</a>
                   </li>
-                  <li>
-                    <a>Sidebar Item 2</a>
-                  </li>
+                  <li></li>
                 </ul>
               </div>
             </div>

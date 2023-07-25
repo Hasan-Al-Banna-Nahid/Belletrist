@@ -34,7 +34,7 @@ const Banner = () => {
       />
       <Parallax speed={-10}>
         <div>
-          <img className="my-4" width={1600} src="/Asset/Write.webp" alt="" />
+          <img className="my-4" width={2000} src="/Asset/Write.webp" alt="" />
           <p className="md:absolute text-6xl text-white font-bold top-96 left-32">
             Unlocking the secrets of <br />
             successful screenwriting

@@ -61,13 +61,16 @@ const Header = () => {
                 <a href="#price">Pricing</a>
               </li>
               <li>
-                <Link to={"/writeScript"}>Create Script</Link>
+                <Link to={"/act"}>Create Script</Link>
               </li>
               <li>
                 <Link>About</Link>
               </li>
               <li>
                 <Link>Blog</Link>
+              </li>
+              <li>
+                <Link to={"/dashboard"}>Dashboard</Link>
               </li>
             </ul>
           </div>
