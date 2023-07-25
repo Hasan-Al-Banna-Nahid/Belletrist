@@ -45,17 +45,20 @@ const WriteScript = () => {
     // console.log(data);
 
     if (scripts) {
-      fetch(`http://localhost:5000/script/${scripts._id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      })
+      fetch(
+        `https://belletrist-iamnahid591998-gmailcom.vercel.app/${scripts._id}`,
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        }
+      )
         .then((res) => res.json())
         .then(() => {
           Swal.fire("Good job!", "Your Script Is Updated!", "success");
         });
     } else {
-      fetch(`http://localhost:5000/script/`, {
+      fetch(`https://belletrist-iamnahid591998-gmailcom.vercel.app/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -71,7 +74,7 @@ const WriteScript = () => {
 
   // console.log(scripts);
   // useEffect(() => {
-  //   fetch("http://localhost:5000/script")
+  //   fetch("https://belletrist-iamnahid591998-gmailcom.vercel.app")
   //     .then((res) => res.json())
   //     .then((data) => setScripts(data));
   // }, []);

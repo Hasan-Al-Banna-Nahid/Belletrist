@@ -7,7 +7,7 @@ const DashBoard = () => {
   const [myScript, setMyScript] = useState([]);
   console.log(myScript);
   useEffect(() => {
-    fetch("http://localhost:5000/script")
+    fetch("https://belletrist-iamnahid591998-gmailcom.vercel.app")
       .then((res) => res.json())
       .then((data) => setMyScript(data));
   }, []);
@@ -22,7 +22,9 @@ const DashBoard = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/script/${id}`, { method: "DELETE" })
+        fetch(`https://belletrist-iamnahid591998-gmailcom.vercel.app/${id}`, {
+          method: "DELETE",
+        })
           .then((res) => res.json())
           .then((data) => {
             Swal.fire("Deleted!", "Your file has been deleted.", "success");
