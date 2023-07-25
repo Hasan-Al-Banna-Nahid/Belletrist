@@ -7,7 +7,7 @@ const DashBoard = () => {
   const [myScript, setMyScript] = useState([]);
   console.log(myScript);
   useEffect(() => {
-    fetch("https://belletrist-iamnahid591998-gmailcom.vercel.app")
+    fetch("https://belletrist-neon.vercel.app/script")
       .then((res) => res.json())
       .then((data) => setMyScript(data));
   }, []);
@@ -22,7 +22,7 @@ const DashBoard = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`https://belletrist-iamnahid591998-gmailcom.vercel.app/${id}`, {
+        fetch(`https://belletrist-neon.vercel.app/script/${id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())

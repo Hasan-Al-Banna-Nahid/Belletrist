@@ -7,7 +7,7 @@ const Act = () => {
   const id = data.map((data) => data._id);
 
   useEffect(() => {
-    fetch(`https://belletrist-iamnahid591998-gmailcom.vercel.app/`)
+    fetch(`https://belletrist-neon.vercel.app/script`)
       .then((res) => res.json())
       .then((data) => setData(data));
   }, []);

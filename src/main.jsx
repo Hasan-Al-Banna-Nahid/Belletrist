@@ -28,9 +28,7 @@ const router = createBrowserRouter([
         path: "/writeScript/:id",
         element: <WriteScript />,
         loader: ({ params }) =>
-          fetch(
-            `https://belletrist-iamnahid591998-gmailcom.vercel.app/${params.id}`
-          ),
+          fetch(`https://belletrist-neon.vercel.app/script/${params.id}`),
       },
       {
         path: "/writeScript",
